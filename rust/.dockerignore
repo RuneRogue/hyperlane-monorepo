@@ -1,1 +1,19 @@
 **/target
+
+# Environment files - exclude sensitive configuration
+.env
+.env.*
+.env.relayer
+.env.validator
+**/.env
+**/.env.*
+**/.env.relayer
+**/.env.validator
+
+# Other sensitive files
+hyperlane_db_*
+relayerdb/
+validatordb/
+**/hyperlane_db_*
+**/relayerdb/
+**/validatordb/

@@ -1,0 +1,78 @@
+# Hyperlane Agent Setup & Deployment Guide
+
+This guide walks you through adding a new chain to Hyperlane, building the agent, and deploying it to Docker Hub.
+
+## Prerequisites
+
+- Docker installed and running
+- Docker Hub account (`runerogue`)
+- Access to the Hyperlane monorepo
+- Chain configuration details (RPC URLs, contract addresses, etc.)
+
+## Step 1: Add New Chain Configuration
+
+1. **Navigate to the configuration directory:**
+   ```bash
+   cd rust/main/config/
+   ```
+
+2. **Edit the mainnet configuration:**
+   ```bash
+   vim mainnet_config.json
+   # or
+   nano mainnet_config.json
+   ```
+
+3. **Add your new chain configuration** in alphabetical order within the chains object:
+   ```json
+   "your-chain-name": {
+     "blockExplorers": [...],
+     "blocks": {...},
+     "chainId": 12345,
+     "deployer": {...},
+     "displayName": "Your Chain Name",
+     "domainId": 12345,
+     "isTestnet": false,
+     "name": "your-chain-name",
+     "nativeToken": {...},
+     "protocol": "ethereum",
+     "rpcUrls": [...],
+     "technicalStack": "other",
+     // Contract addresses
+     "mailbox": "0x...",
+     "merkleTreeHook": "0x...",
+     // ... other contract addresses
+   }
+   ```
+
+## Step 2: Build Docker Image
+
+1. **Navigate to repository root:**
+   ```bash
+   cd /path/to/hyperlane-monorepo
+   ```
+
+2. **Build the Docker image:**
+   ```bash
+   sudo docker build -t hyperlane-agent:latest -f rust/Dockerfile .
+   ```
+   
+   > **Note:** The build must be run from the repository root, not the rust/ subdirectory
+
+## Step 3: Tag & Push to Docker Hub
+
+1. **Tag the image for Docker Hub:**
+   ```bash
+   docker tag hyperlane-agent:latest runerogue/hyperlane-agent:latest
+   ```
+
+2. **Login to Docker Hub:**
+   ```bash
+   docker login
+   ```
+   Enter your Docker Hub credentials when prompted.
+
+3. **Push the image:**
+   ```bash
+   docker push runerogue/hyperlane-agent:latest
+   ```
